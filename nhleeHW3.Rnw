@@ -157,6 +157,11 @@ rankA = qr(A)$rank
 rankB = qr(B)$rank
 @
 The rank of A is \Sexpr{qr(A)$rank} or equivalently \Sexpr{rankA}.
+The reason why the rank of A is not 1 is that:
+The eigenvalues of the matrix is ... and ..., which means the number of the eigenvalues is \Sexpr{qr(A)$rank}.
+
+As the number of eigenvalues and the rank equals, the rank of A is \Sexpr{qr(A)$rank} rather than 1.
+
 The rank of B is \Sexpr{qr(B)$rank} or equivalently \Sexpr{rankB}.
 \end{lstlisting}
         \end{itemize}
