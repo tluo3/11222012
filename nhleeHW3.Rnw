@@ -153,10 +153,11 @@ points(xydataB,cex=,pch=,cex=,color='')
                 using \verb+\Sexpr{}+ or concurrently
 \begin{lstlisting}
 <<echo=false,result=verbatim,fig=false>>=
-A = matrix(c(1,0,0,1),nrow=2,byrow=TRUE)
-retval = det(A)
+rankA = qr(A)$rank
+rankB = qr(B)$rank
 @
-The determinant is \Sexpr{det(A)} or equivalently \Sexpr{retval}.
+The rank of A is \Sexpr{qr(A)$rank} or equivalently \Sexpr{rankA}.
+The rank of B is \Sexpr{qr(B)$rank} or equivalently \Sexpr{rankB}.
 \end{lstlisting}
         \end{itemize}
     \item[(c)] \verb+[COMMIT]+   directly use the code and output from R/Sweave, but make sure
