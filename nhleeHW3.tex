@@ -156,10 +156,13 @@ The rank of B is 1 or equivalently 1.
         \end{itemize}
     \item[(c)] \verb+[COMMIT]+   directly use the code and output from R/Sweave, but make sure
         to explain your answers
+The vector used to explain how we can get the 3rd column from the first two columns is as as follows:
+For A, the vector is 1
 \begin{lstlisting}
 \begin{Schunk}
 \begin{Sinput}
-> #Your R code goes here
+> #b <- A %*% x
+> #solve(A,b)
 \end{Sinput}
 \end{Schunk}
 \end{lstlisting}
@@ -172,8 +175,35 @@ The rank of B is 1 or equivalently 1.
 \begin{lstlisting}
 \begin{Schunk}
 \begin{Sinput}
-> #Your R codes go here
+> yA=diag(diag(c(1,1,1,1)));
+> dA=diag(A %*% t(A));
+> DA2=dA %*% t(yA) + yA %*% t(dA) - 2* A %*% t(A);
+> print(DA2)
 \end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    0    3   12   27
+[2,]    3    0    3   12
+[3,]   12    3    0    3
+[4,]   27   12    3    0
+\end{Soutput}
+\end{Schunk}
+\end{lstlisting}
+\begin{lstlisting}
+\begin{Schunk}
+\begin{Sinput}
+> yB=diag(diag(c(1,1,1,1)));
+> dB=diag(B %*% t(B));
+> DB2=dB %*% t(yB) + yB %*% t(dB) - 2* B %*% t(B);
+> print(DB2)
+\end{Sinput}
+\begin{Soutput}
+     [,1] [,2] [,3] [,4]
+[1,]    0   14   56  126
+[2,]   14    0   14   56
+[3,]   56   14    0   14
+[4,]  126   56   14    0
+\end{Soutput}
 \end{Schunk}
 \end{lstlisting}
     \item \verb+[COMMIT]+ use R/Sweave for computation, and this time, do use the built-in \verb+dist+
@@ -213,7 +243,7 @@ image(M,col=gray.colors(k))
              \item do \verb+[COMMIT]+ 
              \item your performance evaluation is to be included as a caption,
             and change \verb+tinyK+, \verb+width+ and \verb+height+ accordingly
-\begin{lstlisting}
+%\begin{lstlisting}
 \begin{figure}
     \centering
 \begin{Schunk}
@@ -222,15 +252,84 @@ image(M,col=gray.colors(k))
 > #smallK = 
 > #mediumK = 
 > #largeK = 
-> #Your R codes go here
+> load('matlabclown.RData')
+> svdX = svd(X)
+> U = svdX$u
+> S = diag(svdX$d)
+> V = svdX$v
+> M = U[,1:tinyK,drop=FALSE] %*% S[1:tinyK,1:tinyK,drop=FALSE] %*% t(V[,1:tinyK,drop=FALSE])
+> image(M,col=gray.colors(tinyK))
 \end{Sinput}
 \end{Schunk}
-\includegraphics{nhleeHW3-007}
+\includegraphics{nhleeHW3-008}
 \caption{<YOUR PERFORMANCE EVALUATION> on $1$}
     \label{fig:matlabclownKaNumber}
 \end{figure}
-\end{lstlisting}
-                 \end{itemize}
+%\end{lstlisting}
+\begin{figure}
+    \centering
+\begin{Schunk}
+\begin{Sinput}
+> #tinyK = 1
+> smallK =10 
+> #mediumK = 
+> #largeK = 
+> M = U[,1:smallK,drop=FALSE] %*% S[1:smallK,1:smallK,drop=FALSE] %*% t(V[,1:smallK,drop=FALSE])
+> image(M,col=gray.colors(smallK))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{nhleeHW3-009}
+\caption{<YOUR PERFORMANCE EVALUATION> on $10$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+\begin{Schunk}
+\begin{Sinput}
+> #tinyK = 1
+> smallK =10 
+> #mediumK = 
+> #largeK = 
+> M = U[,1:smallK,drop=FALSE] %*% S[1:smallK,1:smallK,drop=FALSE] %*% t(V[,1:smallK,drop=FALSE])
+> image(M,col=gray.colors(smallK))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{nhleeHW3-010}
+\caption{<YOUR PERFORMANCE EVALUATION> on $10$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+\begin{Schunk}
+\begin{Sinput}
+> #tinyK = 1
+> #smallK = 10 
+> mediumK = 100
+> #largeK = 
+> M = U[,1:mediumK,drop=FALSE] %*% S[1:mediumK,1:mediumK,drop=FALSE] %*% t(V[,1:mediumK,drop=FALSE])
+> image(M,col=gray.colors(mediumK))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{nhleeHW3-011}
+\caption{<YOUR PERFORMANCE EVALUATION> on $100$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+\begin{Schunk}
+\begin{Sinput}
+> #tinyK = 1
+> #smallK =10 
+> #mediumK = 100
+> largeK = 200
+> M = U[,1:largeK,drop=FALSE] %*% S[1:largeK,1:largeK,drop=FALSE] %*% t(V[,1:largeK,drop=FALSE])
+> image(M,col=gray.colors(largeK))
+\end{Sinput}
+\end{Schunk}
+\includegraphics{nhleeHW3-012}
+\caption{<YOUR PERFORMANCE EVALUATION> on $200$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}                 
          \end{itemize}
     \item[(b)] 
         \begin{itemize}
@@ -291,12 +390,6 @@ image(M,col=gray.colors(k))
 \end{figure}
 
 
-\paragraph{Ex 4.2}
-\begin{itemize}
-    \item \verb+[COMMIT]+ list your R code using \verb+lstlisting+ 
-    \item \verb+[COMMIT]+ demonstrate that your function is ``functioning'' by way of R/Sweave
-\end{itemize}
-
 \paragraph{Ex 4.3}
 \begin{itemize}
     \item \verb+[COMMIT]+ list your R code using \verb+lstlisting+ 
@@ -304,6 +397,21 @@ image(M,col=gray.colors(k))
         (\verb+require(MVA);data(gardenflowers)+) and compute using R/Sweave
     \item \verb+[COMMIT]+ include a plot of (relative) positions using R/Sweave
     \item \verb+[COMMIT]+ allocate at least a quarter page of \emph{text} explaining the result
+\end{itemize}
+
+\paragraph{Ex 4.3 solution}
+\begin{itemize}
+    \item The R code is as follows:
+\begin{lstlisting}
+\includegraphics{nhleeHW3-014}
+\end{lstlisting}
+
+
+        \end{itemize}
+    \item[(c)] \verb+[COMMIT]+   directly use the code and output from R/Sweave, but make sure
+        to explain your answers
+The vector used to explain how we can get the 3rd column from the first two columns is as as follows:
+For A, the vector is 1
 \end{itemize}
 
 \bibliographystyle{plain}

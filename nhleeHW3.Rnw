@@ -167,9 +167,12 @@ The rank of B is \Sexpr{qr(B)$rank} or equivalently \Sexpr{rankB}.
         \end{itemize}
     \item[(c)] \verb+[COMMIT]+   directly use the code and output from R/Sweave, but make sure
         to explain your answers
+The vector used to explain how we can get the 3rd column from the first two columns is as as follows:
+For A, the vector is \Sexpr{qr(B)$rank}
 \begin{lstlisting}
 <<echo=true,result=verbatim,fig=false>>=
-#Your R code goes here
+#b <- A %*% x
+#solve(A,b)
 @
 \end{lstlisting}
 \end{itemize}
@@ -180,7 +183,18 @@ The rank of B is \Sexpr{qr(B)$rank} or equivalently \Sexpr{rankB}.
         function
 \begin{lstlisting}
 <<echo=true,result=verbatim,fig=false>>=
-#Your R codes go here
+yA=diag(diag(c(1,1,1,1)));
+dA=diag(A %*% t(A));
+DA2=dA %*% t(yA) + yA %*% t(dA) - 2* A %*% t(A);
+print(DA2)
+@
+\end{lstlisting}
+\begin{lstlisting}
+<<echo=true,result=verbatim,fig=false>>=
+yB=diag(diag(c(1,1,1,1)));
+dB=diag(B %*% t(B));
+DB2=dB %*% t(yB) + yB %*% t(dB) - 2* B %*% t(B);
+print(DB2)
 @
 \end{lstlisting}
     \item \verb+[COMMIT]+ use R/Sweave for computation, and this time, do use the built-in \verb+dist+
@@ -218,7 +232,7 @@ image(M,col=gray.colors(k))
              \item do \verb+[COMMIT]+ 
              \item your performance evaluation is to be included as a caption,
             and change \verb+tinyK+, \verb+width+ and \verb+height+ accordingly
-\begin{lstlisting}
+%\begin{lstlisting}
 \begin{figure}
     \centering
 <<echo=true,result=verbatim,fig=true,width=5,height=5>>=
@@ -226,13 +240,70 @@ tinyK = 1
 #smallK = 
 #mediumK = 
 #largeK = 
-#Your R codes go here
+load('matlabclown.RData')
+svdX = svd(X)
+U = svdX$u
+S = diag(svdX$d)
+V = svdX$v
+M = U[,1:tinyK,drop=FALSE] %*% S[1:tinyK,1:tinyK,drop=FALSE] %*% t(V[,1:tinyK,drop=FALSE])
+image(M,col=gray.colors(tinyK))
 @
 \caption{<YOUR PERFORMANCE EVALUATION> on $\Sexpr{tinyK}$}
     \label{fig:matlabclownKaNumber}
 \end{figure}
-\end{lstlisting}
-                 \end{itemize}
+%\end{lstlisting}
+\begin{figure}
+    \centering
+<<echo=true,result=verbatim,fig=true,width=5,height=5>>=
+#tinyK = 1
+smallK =10 
+#mediumK = 
+#largeK = 
+M = U[,1:smallK,drop=FALSE] %*% S[1:smallK,1:smallK,drop=FALSE] %*% t(V[,1:smallK,drop=FALSE])
+image(M,col=gray.colors(smallK))
+@
+\caption{<YOUR PERFORMANCE EVALUATION> on $\Sexpr{smallK}$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+<<echo=true,result=verbatim,fig=true,width=8,height=8>>=
+#tinyK = 1
+smallK =10 
+#mediumK = 
+#largeK = 
+M = U[,1:smallK,drop=FALSE] %*% S[1:smallK,1:smallK,drop=FALSE] %*% t(V[,1:smallK,drop=FALSE])
+image(M,col=gray.colors(smallK))
+@
+\caption{<YOUR PERFORMANCE EVALUATION> on $\Sexpr{smallK}$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+<<echo=true,result=verbatim,fig=true,width=10,height=10>>=
+#tinyK = 1
+#smallK = 10 
+mediumK = 100
+#largeK = 
+M = U[,1:mediumK,drop=FALSE] %*% S[1:mediumK,1:mediumK,drop=FALSE] %*% t(V[,1:mediumK,drop=FALSE])
+image(M,col=gray.colors(mediumK))
+@
+\caption{<YOUR PERFORMANCE EVALUATION> on $\Sexpr{mediumK}$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}
+\begin{figure}
+    \centering
+<<echo=true,result=verbatim,fig=true,width=12,height=12>>=
+#tinyK = 1
+#smallK =10 
+#mediumK = 100
+largeK = 200
+M = U[,1:largeK,drop=FALSE] %*% S[1:largeK,1:largeK,drop=FALSE] %*% t(V[,1:largeK,drop=FALSE])
+image(M,col=gray.colors(largeK))
+@
+\caption{<YOUR PERFORMANCE EVALUATION> on $\Sexpr{largeK}$}
+    \label{fig:matlabclownKaNumber}
+\end{figure}                 
          \end{itemize}
     \item[(b)] 
         \begin{itemize}
@@ -296,12 +367,6 @@ tinyK = 1
 \end{figure}
 
 
-\paragraph{Ex 4.2}
-\begin{itemize}
-    \item \verb+[COMMIT]+ list your R code using \verb+lstlisting+ 
-    \item \verb+[COMMIT]+ demonstrate that your function is ``functioning'' by way of R/Sweave
-\end{itemize}
-
 \paragraph{Ex 4.3}
 \begin{itemize}
     \item \verb+[COMMIT]+ list your R code using \verb+lstlisting+ 
@@ -309,6 +374,39 @@ tinyK = 1
         (\verb+require(MVA);data(gardenflowers)+) and compute using R/Sweave
     \item \verb+[COMMIT]+ include a plot of (relative) positions using R/Sweave
     \item \verb+[COMMIT]+ allocate at least a quarter page of \emph{text} explaining the result
+\end{itemize}
+
+\paragraph{Ex 4.3 solution}
+\begin{itemize}
+    \item The R code is as follows:
+\begin{lstlisting}
+<<echo=false, results=hide, fig=true>>=
+require(MVA);data(gardenflowers)
+garden=as.matrix(gardenflowers)
+flowers_mds <- cmdscale(garden,k=17,eig=TRUE)
+round(flowers_mds$eig,3)
+cbind(round(flowers_mds$eig,3))
+cbind(cumsum(abs(flowers_mds$eig))/sum(abs(flowers_mds$eig)))
+cbind(cumsum((flowers_mds$eig)^2)/sum((flowers_mds$eig)^2))
+x<-flowers_mds$points[,1]
+y<-flowers_mds$points[,2]
+plot(x,y,xlab = "Coordinate 1", ylab = "Coordinate 2",xlim = range(x)*1.2, type = "n")
+text(x, y, labels = colnames(garden), cex = 0.7)
+library("ape")
+st <- mst(garden)
+for (i in 1:nrow(garden)) {
+    w1 <- which(st[i, ] == 1)
+    segments(x[i], y[i], x[w1], y[w1])
+    }
+@
+\end{lstlisting}
+
+
+        \end{itemize}
+    \item[(c)] \verb+[COMMIT]+   directly use the code and output from R/Sweave, but make sure
+        to explain your answers
+The vector used to explain how we can get the 3rd column from the first two columns is as as follows:
+For A, the vector is \Sexpr{qr(B)$rank}
 \end{itemize}
 
 \bibliographystyle{plain}
